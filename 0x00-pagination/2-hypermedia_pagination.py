@@ -77,7 +77,7 @@ class Server:
         data = self.get_page(page, page_size)
 
         obj = {
-                "page_size": page_size if len(data) > 0 else 0,
+                "page_size": len(data),
                 "page": page,
                 "data": data,
                 "next_page": next_page if len(data) > 0 else None,
