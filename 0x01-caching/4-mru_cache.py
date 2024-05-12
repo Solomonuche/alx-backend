@@ -33,6 +33,8 @@ class MRUCache(BaseCaching):
         access cache item
         """
         if key and key in self.cache_data:
+            self.queue.remove(key)
+            self.queue.append(key)
             return self.cache_data[key]
         else:
             return None
