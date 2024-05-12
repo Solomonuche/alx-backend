@@ -14,6 +14,7 @@ class LFUCache(BaseCaching):
         """initilizer"""
         super().__init__()
         self.queue = []
+        self.use_frequency = {}
 
     def put(self, key, item):
         """
@@ -24,19 +25,23 @@ class LFUCache(BaseCaching):
             if key in self.cache_data:
                 self.queue.remove(key)
             elif len(self.cache_data.keys()) == BaseCaching.MAX_ITEMS:
-                key_to_remove = self.queue.pop(0)
-                print(f'DISCARD: {key_to_remove}')
-                del self.cache_data[key_to_remove]
+                val = min(self.use_frequency.values())
+                for k, v in self.use_frequency.items():
+                    if v == val:
+                        print(f'DISCARD: {k}')
+                        del self.cache_data[k]
+                        del self.use_frequency[k]
+                        break
             self.queue.append(key)
             self.cache_data[key] = item
+            self.use_frequency[key] = self.use_frequency.get(key, 0) + 1
 
     def get(self, key):
         """
         access cache item
         """
         if key and key in self.cache_data:
-            self.queue.remove(key)
-            self.queue.append(key)
+            self.use_frequency[key] += 1
             return self.cache_data[key]
         else:
             return None
