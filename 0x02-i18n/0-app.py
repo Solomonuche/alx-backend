@@ -10,6 +10,9 @@ app = Flask(__name__)
 
 @app.route("/", strict_slashes=False)
 def home():
+    """
+    The index view
+    """
     return render_template("0-index.html")
 
 
