@@ -26,7 +26,7 @@ def get_locale():
     """Get the best language match for a user
     """
     locale = request.args.get('locale')
-    if locale and locale in app.config['LANGUAGES']:
+    if locale in app.config['LANGUAGES']:
         return locale
     else:
         return request.accept_languages.best_match(app.config['LANGUAGES'])
@@ -41,4 +41,4 @@ def home():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)
